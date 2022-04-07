@@ -15,14 +15,17 @@ public class MainActivity extends AppCompatActivity {
     Button btnZero, btnOne, btnTwo, btnThree, btnFour, btnFive, btnSix, btnSeven, btnEight, btnNine;
     Button btnClear, btnComma, btnEqual, btnPlus, btnSubtract, btnMultiple, btnDivide;
     TextView txtDisplay;
+
     Boolean newInput = true;
     String calString ="";
-    StringCalculator cal = new StringCalculator();
+    StringCalculator cal = new StringCalculator(); // Một class xử lý các vấn đề toán học và chuỗi giá trị
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getComponent();
+
         btnZero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,56 +38,48 @@ public class MainActivity extends AppCompatActivity {
                 numberHandle("1");
             }
         });
-
         btnTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 numberHandle("2");
             }
         });
-
         btnThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 numberHandle("3");
             }
         });
-
         btnFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 numberHandle("4");
             }
         });
-
         btnFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 numberHandle("5");
             }
         });
-
         btnSix.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 numberHandle("6");
             }
         });
-
         btnSeven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 numberHandle("7");
             }
         });
-
         btnEight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 numberHandle("8");
             }
         });
-
         btnNine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,21 +103,18 @@ public class MainActivity extends AppCompatActivity {
                 operatorHandle("+");
             }
         });
-
         btnSubtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 operatorHandle("-");
             }
         });
-
         btnMultiple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 operatorHandle("*");
             }
         });
-
         btnDivide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,11 +127,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Lấy tối đa 8 kí tự đang hiển thị trên màn hình để thêm vào cuối chuỗi phép tính
                 String getText = txtDisplay.getText().toString();
-                for (int i =0;i< getText.length();i++){
-                    if(i == 9) break;
+                for (int i = 0; i < getText.length(); i++){
+                    if (i == 9) break;
                     calString += getText.charAt(i);
                 }
-                //
 
                 txtDisplay.setText(cal.processInput(calString));
                 calString = cal.processInput(calString);
@@ -181,36 +172,36 @@ public class MainActivity extends AppCompatActivity {
 
         txtDisplay = findViewById(R.id.txtDisplay);
     }
+
+    // Hàm ghi nhận dấu của phép tính truyền vào
     private void operatorHandle(String operator) {
         // Nếu đang trong trạng thái nhập hay newInput = false thì nhấn các phím
         // phép tính sẽ không xảy ra điều gì cả
-        if(!newInput){
+        if (!newInput) {
             // Lấy tối đa 9 ký tự đang hiển thị trên màn hình
             String getText = txtDisplay.getText().toString();
-            for (int i =0;i< getText.length();i++){
-                if(i == 9) break;
+            for (int i =0; i< getText.length(); i++){
+                if (i == 9) break;
                 calString += getText.charAt(i);
             }
-            //
+
             String result;
             // Kiểm tra trong chuỗi có dấu phép tính hay không
-            if(containsOperator(calString)){
+            if (containsOperator(calString)) {
                 // Nếu đang trong trạng thái nhập mới thì tiếng hành cộng thêm số 0 đằng
                 // sau để tránh bug, tránh trường hợp người dùng spam các nút phép tính
-                if(newInput){
+                if (newInput) {
                     result = cal.processInput(calString + "0");
-                }else {
+                } else {
                     result = cal.processInput(calString);
                 }
-            }else{
+            } else {
                 result = cal.processInput(calString);
             }
-            //
 
             txtDisplay.setText(result);
             calString = result;
-            // Nếu trong chuỗi phép tính không chứa dấu phép tính thì tiến hành thêm dấu phép tính
-            // vào cuối chuỗi
+            // Nếu trong chuỗi phép tính không chứa dấu phép tính thì tiến hành thêm dấu phép tính vào cuối chuỗi
             if(!containsOperator(calString)){
                 calString += " " + operator + " ";
             }
@@ -220,7 +211,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Calculator", calString);
     }
 
-    private void numberHandle(String number){
+    // Hàm xử số các giá trị số trên màn hình
+    private void numberHandle(String number) {
         String displayValue = txtDisplay.getText().toString();
         // Nếu trong trạng thái nhập mới thì sẽ reset lại chuỗi đang hiển thị trên màn hình
         // và thiết lập chế độ nhập giá trị mới bằng false
@@ -236,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Hàm kiểm tra dấu phép tính có tồn tại trong chuỗi hay không
-    private Boolean containsOperator(String string){
+    private Boolean containsOperator(String string) {
         return (string.contains("+") || calString.contains("-") || calString.contains("*") || calString.contains("/"));
     }
 }
